@@ -20,8 +20,8 @@ For support, discussions, and announcements, please use the **Discussions** tab 
 
 To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
 
-Latest version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/master/tips.and.tweaks.plg
+Latest version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/master/tips.and.tweaks-next.plg
 
-Specific version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/vYYYY.MM.DD/tips.and.tweaks.plg
+Specific version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/vYYYY.MM.DD/tips.and.tweaks-next.plg
 
 Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.

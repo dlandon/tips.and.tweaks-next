@@ -1,5 +1,4 @@
-NOTICE
-------
+## NOTICE
 
 This repository contains continued private development of the Tips and Tweaks plugin
 authored by dlandon.

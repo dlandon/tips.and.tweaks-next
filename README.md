@@ -36,4 +36,3 @@ Individual users may install and use this software in accordance with the licens
 
 Versions released prior to March 6, 2025 remain licensed under the GPL.
 Subsequent versions are licensed under the custom license included in this repository.
-

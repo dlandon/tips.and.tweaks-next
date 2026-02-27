@@ -1,34 +1,38 @@
-# Tips and Tweaks - Next
+# Tips and Tweaks – Next
 
-Tips and Tweaks (Next) provides advanced configuration and optimization options for Unraid.  
+Tips and Tweaks (Next) provides advanced configuration and optimization options for Unraid.
+
 It is designed to improve system performance, usability, and flexibility while maintaining stability.
 
-This plugin is an **independent alternative** to the official Unraid Tips and Tweaks plugin, offering enhanced configuration and optimization options.
+# About This Project
 
-This project continues the plugin authored by **dlandon**, with enhancements and bug fixes.
+This project continues development of the Tips and Tweaks plugin originally authored by Dan Landon, with enhancements, stability improvements, and expanded configuration capabilities.
 
-Development in this repository begins from the codebase authored by **dlandon** and continues privately as of **March 2025**.
+Development in this repository reflects ongoing work by the original author.
 
-All development and commits dated **March 2025** and later are licensed under the custom license included in this repository.
+All versions publicly released under the GPL prior to March 1, 2025 remain licensed under the GPL.
+Versions released after that date are governed by the custom license included in this repository.
 
-For support, discussions, and announcements, please use the **Discussions** tab in this repository.
+For support, discussions, and announcements, please use the Discussions tab.
 
 # Installing Tips and Tweaks
 
-To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
+To install manually, enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
 
-Latest version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/master/tips.and.tweaks-next.plg
+Latest version:
+https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/master/tips.and.tweaks-next.plg
 
-Specific version: https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/vYYYY.MM.DD/tips.and.tweaks-next.plg
+Specific version:
+https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/vYYYY.MM.DD/tips.and.tweaks-next.plg
 
-Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
+Replace YYYY.MM.DD with the release date of the version you wish to install.
+Include the leading v in the URL.
 
-### Notice
+### License Notice
 
-This repository is independently maintained by the original author of the Tips and Tweaks plugin.
+This repository is maintained by the original author of the Tips and Tweaks plugin.
 
-Individual Unraid users may install and use this software in accordance with the license terms.
+Individual users may install and use this software in accordance with the license terms.
 
-All versions of Tips and Tweaks released publicly under the GPL prior to March 2025 remain licensed under the GPL.
-
-Limetech or other third parties may not incorporate this code into Unraid or other products without a separate licensing agreement.
+Versions released prior to March 1, 2025 remain licensed under the GPL.
+Subsequent versions are licensed under the custom license included in this repository.

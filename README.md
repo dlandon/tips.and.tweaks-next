@@ -35,4 +35,5 @@ This repository is maintained by the original author of the Tips and Tweaks plug
 Individual users may install and use this software in accordance with the license terms.
 
 Versions released prior to March 6, 2025 remain licensed under the GPL.
-Subsequent versions are licensed under the custom license included in this repository.
+Subsequent versions are licensed under the custom license included in this repository.
+

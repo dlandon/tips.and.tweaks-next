@@ -4,7 +4,7 @@ Tips and Tweaks (Next) provides advanced configuration and optimization options 
 
 It is designed to improve system performance, usability, and flexibility while maintaining stability.
 
-# About This Project
+### About This Project
 
 This project continues development of the Tips and Tweaks plugin originally authored by Dan Landon, with enhancements, stability improvements, and expanded configuration capabilities.
 
@@ -15,7 +15,7 @@ Versions released after that date are governed by the custom license included in
 
 For support, discussions, and announcements, please use the Discussions tab.
 
-# Installing Tips and Tweaks
+### Installing Tips and Tweaks
 
 To install manually, enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
 

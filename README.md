@@ -11,10 +11,6 @@ This project continues development of the Tips and Tweaks plugin originally auth
 
 Development in this repository reflects ongoing work by the original author.
 
-All versions publicly released under the GPL prior to March 18, 2025 remain licensed under the GPL. Versions released after that date are governed by the custom license included in this repository.
-
-For support, discussions, and announcements, please use the Discussions tab.
-
 ### Installing Tips and Tweaks - Next
 
 To install manually, enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
@@ -47,6 +43,6 @@ This repository is maintained by the original author of the plugin.
 
 Versions of this software publicly released prior to **March 18, 2025** remain licensed under the GNU General Public License (GPL) in accordance with their original terms.
 
-Versions released after that date are governed by the plugin-specific license included in the `LICENSE.md` file in this repository.
+Versions of Next released after that date are governed by the plugin-specific license included in the `LICENSE.md` file in this repository.
 
 Users may install and use this software in accordance with the terms of that license.

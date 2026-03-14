@@ -11,6 +11,8 @@ This project continues development of the Tips and Tweaks plugin originally auth
 
 Development in this repository reflects ongoing work by the original author.
 
+For support, feature requests, and discussions, please use the Discussions tab.
+
 ### Installing Tips and Tweaks - Next
 
 To install manually, enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.

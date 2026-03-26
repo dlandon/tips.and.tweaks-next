@@ -5,15 +5,11 @@ Tips and Tweaks - Next provides advanced configuration and optimization options 
 
 It is designed to improve system performance, usability, and flexibility while maintaining stability.
 
-### About This Project
+## About This Project
 
-This project continues development of the Tips and Tweaks plugin originally authored by Dan Landon, with enhancements, stability improvements, and expanded configuration capabilities.
+The Next series of this plugin is actively maintained by the original author and continues development of the project with ongoing fixes, improvements, and enhancements.
 
-Development in this repository reflects ongoing work by the original author.
-
-For support, feature requests, and discussions, please use the Discussions tab.
-
-### Installing Tips and Tweaks - Next
+## Installing Tips and Tweaks - Next
 
 To install manually, enter one of the URLs below in the **Enter URL** field on the Unraid Plugins page.
 
@@ -30,6 +26,8 @@ https://raw.githubusercontent.com/dlandon/tips.and.tweaks-next/vYYYY.MM.DD/tips.
 Replace YYYY.MM.DD with the release date of the version you wish to install. Include the leading v in the URL.
 
 **Note:** The URL must begin with `https://raw.githubusercontent.com/`. GitHub page URLs (`github.com/.../blob/...`) will not install correctly.
+
+For support, feature requests, and discussions, please use the Discussions tab.
 
 ## Distribution
 
@@ -48,3 +46,11 @@ Versions of this software publicly released prior to **March 18, 2025** remain l
 Versions of Next released after that date are governed by the plugin-specific license included in the `LICENSE.md` file in this repository.
 
 Users may install and use this software in accordance with the terms of that license.
+
+## Support Development
+
+If this plugin has been useful to you and you'd like to support ongoing development, you can optionally make a donation:
+
+[Donate via PayPal](https://www.paypal.com/us/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EJGPC7B5CS66E)
+
+Support is appreciated, but never expected.

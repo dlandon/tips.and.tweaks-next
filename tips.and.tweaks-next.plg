@@ -1,0 +1,165 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name		"tips.and.tweaks-next">
+<!ENTITY plugin		"tips.and.tweaks">
+<!ENTITY author		"dlandon">
+<!ENTITY version	"2026.03.27">
+<!ENTITY launch		"Settings/TipsAndTweaks">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
+<!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
+<!ENTITY pluginURL	"&gitURL;/&name;.plg">
+<!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
+<!ENTITY MD5		"665b5b97cd1eff05e25571f7e4ba29c1">
+]>
+
+<PLUGIN	name="&plugin;"
+		author="&author;"
+		version="&version;"
+		launch="&launch;"
+		pluginURL="&pluginURL;"
+		support="&supportURL;"
+		icon="gear"
+		min="6.12.0">
+
+<CHANGES>
+##&name;
+###&version;
+- Notice: Initial release under the new license.
+- Notice: Minimum Unraid version changed to 6.12.  There have been too many UI changes to maintain backwards compatibility beyond 6.12.
+- Fix: Changed Help text for "Balanced Performance" and "Balanced Power".
+- Fix: UI fixes for Unraid 7.2 responsive design.
+- Fix: Change the separators on the Tweaks page to a more modern, responsive design.
+- Fix: Limit Rx and Tx ring buffer settings to 256, 512, 1024, 2048, and 4096.  1024 is the recommended setting for both Rx and Tx.  Higher settings than 1024 may increase latency and are not beneficial.
+- Fix: Change settings icon to sliders.
+- Add: Add 'On Demand' and 'Conservative' CPU Governors to AMD Pstate Governor.
+- Add: Numeric inputs limited to numbers and min and max values added.
+- Add: Display Rx and Tx ring buffer, Flow Control, and TSO Offload settings for each NIC separately on the Tweaks page.
+</CHANGES>
+
+<!--
+Copyright (C) 2016-2026 Dan Landon
+Licensed under the Tips and Tweaks - Next Personal Use License v1.0
+See LICENSE.md for full license terms.
+-->
+
+<!--
+Get the plugin bundle.
+-->
+<FILE Name="/boot/config/plugins/&plugin;/&name;-&version;.tgz">
+<URL>"&tgzURL;/&name;-&version;.tgz"</URL>
+<MD5>&MD5;</MD5>
+</FILE>
+
+<!--
+The 'pre-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# The previous tips and tweaks plugin cannot be installed.
+if [ -f /boot/config/plugins/&plugin;.plg ] ; then
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has not been installed!"
+echo ""
+echo " The previous Tips and Tweaks plugin is installed."
+echo ""
+echo " You must uninstall the Tips and Tweaks plugin"
+echo " before installing Tips and Tweaks - Next."
+echo ""
+echo "-----------------------------------------------------------"
+echo ""
+exit 1
+fi
+
+# Save a copy of the kill tasks event if we are updating the plugin.
+if [ -f /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs ]; then
+	mv /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs /tmp/
+fi
+
+# Remove emhttp files so we can re-install.
+rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+
+# Remove old 'bundle' files.
+rm -f $(ls /boot/config/plugins/&plugin;/&name;*.tgz 2>/dev/null | grep -v '&version;')
+</INLINE>
+</FILE>
+
+<!--
+Install the plugin bundle.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# Create plugin directory
+mkdir /boot/config/plugins/&plugin; 2>/dev/null
+
+# Install the 'bundle'.
+tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&plugin;/&plugin;.cfg">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
+<!--
+The 'post-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# Restore the kill tasks event
+if [ -f /tmp/stopping_svcs ]; then
+	mkdir -p /usr/local/emhttp/plugins/&plugin;/event/
+	mv /tmp/stopping_svcs /usr/local/emhttp/plugins/&plugin;/event/
+fi
+
+# Create a symlink to tips.and.tweaks script.
+ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/rc.tweaks /usr/local/sbin
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; is installed."
+echo " Copyright 2016-2026 &author;"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+# Remove the hook for log archiving
+/usr/local/emhttp/plugins/&plugin;/scripts/rc.tweaks remove_syslog
+
+# Remove dynamix set governor cron file.
+rm -f /boot/config/plugins/dynamix/cpu_governor.cron
+
+# Reload dynamix crons.
+/usr/local/sbin/update_cron
+
+# Remove symlink to rc.tweaks script
+rm -f /usr/local/sbin/rc.tweaks
+
+# Remove all plugin files.
+rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
+
+# Remove the tips and tweaks 'bundle' so it will be downloaded if re-installed.
+rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
+
+echo "Removing packages..."
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been removed."
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+</PLUGIN>

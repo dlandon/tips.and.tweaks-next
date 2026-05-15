@@ -4,6 +4,11 @@ The **Next** series continues development of the plugin by the original author a
 
 Development of the plugin will continue with ongoing maintenance, improvements, and enhancements.
 
+## 2026.05.15
+
+### Fixes
+- Fix misspelling of balanced AMD Pstate EPP governors.
+
 ## 2026.03.27
 
 Initial release of the **Next** series maintained by the original author.

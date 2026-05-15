@@ -3,13 +3,13 @@
 <!ENTITY name		"tips.and.tweaks-next">
 <!ENTITY plugin		"tips.and.tweaks">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.03.27">
+<!ENTITY version	"2026.05.15">
 <!ENTITY launch		"Settings/TipsAndTweaks">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"665b5b97cd1eff05e25571f7e4ba29c1">
+<!ENTITY MD5		"92b262efb85d376fdc4bc6064396b55b">
 ]>
 
 <PLUGIN	name="&plugin;"
@@ -24,6 +24,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Mispelled AMD Pstate EPP governors.  Balanced governors were not applying properly.
+
+###2026.03.27
 - Notice: Initial release under the new license.
 - Notice: Minimum Unraid version changed to 6.12.  There have been too many UI changes to maintain backwards compatibility beyond 6.12.
 - Fix: Changed Help text for "Balanced Performance" and "Balanced Power".

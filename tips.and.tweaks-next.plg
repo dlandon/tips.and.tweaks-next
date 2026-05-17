@@ -3,13 +3,13 @@
 <!ENTITY name		"tips.and.tweaks-next">
 <!ENTITY plugin		"tips.and.tweaks">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.05.15">
+<!ENTITY version	"2026.05.17">
 <!ENTITY launch		"Settings/TipsAndTweaks">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"92b262efb85d376fdc4bc6064396b55b">
+<!ENTITY MD5		"ca08a4113c6169b53ddc0dc5d04f7ea4">
 ]>
 
 <PLUGIN	name="&plugin;"
@@ -24,7 +24,11 @@
 <CHANGES>
 ##&name;
 ###&version;
-- Fix: Mispelled AMD Pstate EPP governors.  Balanced governors were not applying properly.
+- Fix: Refactor governor settings to account for CPU Frequency Drivers using EPP settings.  These are used in the AMD Pstate EPP and the Intel Pstate drivers.
+- Fix: Help text has been redone to accomodate for changes in settings.
+- Fix: Don't enable boost scheduling if boost is not enabled in the UI.
+- Add: Disable schedule settings on UI when schedule CPU Boost and Power Saving are not enabled.
+- Note: Because of changes in the UI to accomodate a more generic approach to CPU Frequency modes, you will need to make a change on the UI and save it to change to the new configuration.
 
 ###2026.03.27
 - Notice: Initial release under the new license.

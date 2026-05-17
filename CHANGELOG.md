@@ -4,6 +4,28 @@ The **Next** series continues development of the plugin by the original author a
 
 Development of the plugin will continue with ongoing maintenance, improvements, and enhancements.
 
+## 2026.05.17
+
+### Improvements
+- Updated CPU scaling and power management handling for improved compatibility with modern Linux CPU frequency drivers
+- Simplified CPU power management controls with a more user-friendly and generic policy-based approach
+- Improved Tweaks page layout, responsiveness, and UI behavior
+
+### Fixes
+- Updated CPU scaling and boost handling for newer Intel and AMD CPU frequency drivers
+- Reworked help text and UI descriptions for improved clarity and consistency
+- Fixed several UI logic and scheduling issues related to CPU Boost and Power Saving settings
+- Corrected various Tweaks page layout and rendering issues
+
+### Enhancements
+- Added improved dynamic UI handling for CPU scheduling and power management controls
+- Improved compatibility with modern CPU power management features and driver behavior
+
+### Notes
+- CPU scaling settings have been redesigned using a simplified policy-based model
+- Existing CPU scaling settings are not automatically converted to the new policy modes
+- After upgrading, review the CPU scaling settings on the Tweaks page and click Apply to save the updated configuration
+
 ## 2026.05.15
 
 ### Fixes

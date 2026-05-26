@@ -3,13 +3,13 @@
 <!ENTITY name		"tips.and.tweaks-next">
 <!ENTITY plugin		"tips.and.tweaks">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.05.17">
+<!ENTITY version	"2026.05.26">
 <!ENTITY launch		"Settings/TipsAndTweaks">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"ca08a4113c6169b53ddc0dc5d04f7ea4">
+<!ENTITY MD5		"a81e7fd1b9bdf5546008cc8cb7911b13">
 ]>
 
 <PLUGIN	name="&plugin;"
@@ -24,6 +24,14 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Remove saving diagnostics from syslog archiving when shutting down for reboot.  Unraid generates diagnostics when it shuts down.
+- Fix: Lots of code cleanup in rc.tweaks for robustness, readability, and support.
+- Fix: Set appropriate min and max values for all numeric fields.
+- Fix: Move syslog save on shutdown to /flash/config/stop file.
+- Add: Display settigs after page is loaded so page is more responsive.
+- Note: Due to a change in the syslog archiving on shutdown, you will need to make a change on the UI and save it to change to the new configuration.
+
+###2026.05.17
 - Fix: Refactor governor settings to account for CPU Frequency Drivers using EPP settings.  These are used in the AMD Pstate EPP and the Intel Pstate drivers.
 - Fix: Help text has been redone to accomodate for changes in settings.
 - Fix: Don't enable boost scheduling if boost is not enabled in the UI.
@@ -62,7 +70,9 @@ The 'pre-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+#
 # The previous tips and tweaks plugin cannot be installed.
+#
 if [ -f /boot/config/plugins/&plugin;.plg ] ; then
 echo ""
 echo "-----------------------------------------------------------"
@@ -78,15 +88,21 @@ echo ""
 exit 1
 fi
 
+#
 # Save a copy of the kill tasks event if we are updating the plugin.
+#
 if [ -f /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs ]; then
 	mv /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs /tmp/
 fi
 
+#
 # Remove emhttp files so we can re-install.
+#
 rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
 
+#
 # Remove old 'bundle' files.
+#
 rm -f $(ls /boot/config/plugins/&plugin;/&name;*.tgz 2>/dev/null | grep -v '&version;')
 </INLINE>
 </FILE>
@@ -96,10 +112,14 @@ Install the plugin bundle.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+#
 # Create plugin directory
+#
 mkdir /boot/config/plugins/&plugin; 2>/dev/null
 
+#
 # Install the 'bundle'.
+#
 tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
 </INLINE>
 </FILE>
@@ -116,14 +136,32 @@ The 'post-install' script.
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+#
 # Restore the kill tasks event
+#
 if [ -f /tmp/stopping_svcs ]; then
 	mkdir -p /usr/local/emhttp/plugins/&plugin;/event/
 	mv /tmp/stopping_svcs /usr/local/emhttp/plugins/&plugin;/event/
 fi
 
+#
 # Create a symlink to tips.and.tweaks script.
+#
 ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/rc.tweaks /usr/local/sbin
+
+#
+# Remove legacy syslog archive hook from rc.local_shutdown.
+#
+shutdown_file="/etc/rc.d/rc.local_shutdown"
+tmp_file="/tmp/rc.local_shutdown.$$"
+
+if [ -f "$shutdown_file" ]; then
+	if grep -q "^#archive_logs_start$" "$shutdown_file"; then
+		sed '/^#archive_logs_start$/,/^#archive_logs_end$/d' "$shutdown_file" > "$tmp_file"
+		cat "$tmp_file" > "$shutdown_file"
+		rm -f "$tmp_file"
+	fi
+fi
 
 echo ""
 echo "-----------------------------------------------------------"
@@ -140,22 +178,39 @@ The 'remove' script.
 -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
+#
 # Remove the hook for log archiving
+#
 /usr/local/emhttp/plugins/&plugin;/scripts/rc.tweaks remove_syslog
 
+#
 # Remove dynamix set governor cron file.
+#
 rm -f /boot/config/plugins/dynamix/cpu_governor.cron
 
+#
+# Remove dynamix set boost cron file
+#
+rm -f /boot/config/plugins/dynamix/cpu_turbo_boost.cron
+
+#
 # Reload dynamix crons.
+#
 /usr/local/sbin/update_cron
 
+#
 # Remove symlink to rc.tweaks script
+#
 rm -f /usr/local/sbin/rc.tweaks
 
+#
 # Remove all plugin files.
+#
 rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
 
+#
 # Remove the tips and tweaks 'bundle' so it will be downloaded if re-installed.
+#
 rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
 
 echo "Removing packages..."

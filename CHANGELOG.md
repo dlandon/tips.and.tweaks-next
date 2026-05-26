@@ -4,6 +4,20 @@ The **Next** series continues development of the plugin by the original author a
 
 Development of the plugin will continue with ongoing maintenance, improvements, and enhancements.
 
+## 2026.05.26
+
+### Improvements
+- Updated the Tweaks page to load current system settings after page render for improved responsiveness.
+- Refactored and cleaned up `rc.tweaks` for improved readability, maintainability, and robustness.
+- Added validation and appropriate minimum/maximum limits for numeric configuration fields.
+
+### Fixes
+- Removed redundant diagnostics archiving during reboot shutdowns since Unraid already generates diagnostics.
+- Updated syslog shutdown archiving to use the persistent `/boot/config/stop` shutdown hook mechanism.
+
+### Notes
+- Due to changes in syslog shutdown archiving, you will need to make a change on the UI and save the settings to apply the new shutdown configuration.
+
 ## 2026.05.17
 
 ### Improvements

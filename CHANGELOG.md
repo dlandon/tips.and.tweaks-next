@@ -4,6 +4,12 @@ The **Next** series continues development of the plugin by the original author a
 
 Development of the plugin will continue with ongoing maintenance, improvements, and enhancements.
 
+## 2026.09.08
+
+### Fixes
+- Revised the help text for disk cache settings to better explain what each setting controls.
+- Revised the inotify watch settings to remove the previous automatic adjustment and warning behavior. File Activity and Recycle Bin now use the system-configured inotify watch limit, allowing the user to adjust the limit in Tips and Tweaks when needed.
+
 ## 2026.05.26
 
 ### Improvements

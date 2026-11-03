@@ -3,7 +3,7 @@
 <!ENTITY name		"tips.and.tweaks-next">
 <!ENTITY plugin		"tips.and.tweaks">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.09.08">
+<!ENTITY version	"2026.11.03">
 <!ENTITY launch		"Settings/TipsAndTweaks">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
@@ -24,6 +24,13 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Validate the plugin bundle before changing installed files.
+- Fix: Report bundle extraction failures and abort installation.
+- Fix: Improve old bundle cleanup to preserve the exact current installation bundle.
+- Fix: Use a plugin-specific temporary filename when preserving the kill tasks event during updates.
+- Fix: Check for errors when removing the legacy syslog archive hook.
+
+###2026.09.08
 - Fix: Rewrite help text on disk cache settings to better explain what the settings adjust.
 - Fix: Redo inotify watches to remove existing setting and warning message.  File Activity and Recycle Bin don't change the inotify watches any longer.
 
@@ -91,12 +98,19 @@ echo "-----------------------------------------------------------"
 echo ""
 exit 1
 fi
+#
+# Validate the bundle before changing the installed plugin.
+#
+if ! tar -tf "/boot/config/plugins/&plugin;/&name;-&version;.tgz" >/dev/null 2>&amp;1; then
+	echo "ERROR: &name; bundle is missing or invalid. Installation aborted."
+	exit 1
+fi
 
 #
-# Save a copy of the kill tasks event if we are updating the plugin.
+# Save the kill tasks event before updating the plugin.
 #
 if [ -f /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs ]; then
-	mv -f /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs /tmp/
+	mv -f /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs /tmp/&plugin;.stopping_svcs
 fi
 
 #
@@ -107,7 +121,11 @@ rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
 #
 # Remove old 'bundle' files.
 #
-rm -f $(ls /boot/config/plugins/&plugin;/&name;*.tgz 2>/dev/null | grep -v '&version;')
+for bundle in /boot/config/plugins/&plugin;/&name;*.tgz; do
+	if [[ -f "$bundle" &amp;&amp; "$bundle" != "/boot/config/plugins/&plugin;/&name;-&version;.tgz" ]]; then
+		rm -f -- "$bundle"
+	fi
+done
 </INLINE>
 </FILE>
 
@@ -117,14 +135,12 @@ Install the plugin bundle.
 <FILE Run="/bin/bash">
 <INLINE>
 #
-# Create plugin directory
-#
-mkdir /boot/config/plugins/&plugin; 2>/dev/null
-
-#
 # Install the 'bundle'.
 #
-tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+if ! tar -xf "/boot/config/plugins/&plugin;/&name;-&version;.tgz" -C /usr/local/emhttp/plugins; then
+	echo "ERROR: Unable to extract &name; bundle. Installation aborted."
+	exit 1
+fi
 </INLINE>
 </FILE>
 
@@ -143,9 +159,9 @@ The 'post-install' script.
 #
 # Restore the kill tasks event
 #
-if [ -f /tmp/stopping_svcs ]; then
+if [ -f /tmp/&plugin;.stopping_svcs ]; then
 	mkdir -p /usr/local/emhttp/plugins/&plugin;/event/
-	mv -f /tmp/stopping_svcs /usr/local/emhttp/plugins/&plugin;/event/
+	mv -f /tmp/&plugin;.stopping_svcs /usr/local/emhttp/plugins/&plugin;/event/stopping_svcs
 fi
 
 #
@@ -161,8 +177,18 @@ tmp_file="/tmp/rc.local_shutdown.$$"
 
 if [ -f "$shutdown_file" ]; then
 	if grep -q "^#archive_logs_start$" "$shutdown_file"; then
-		sed '/^#archive_logs_start$/,/^#archive_logs_end$/d' "$shutdown_file" > "$tmp_file"
-		cat "$tmp_file" > "$shutdown_file"
+		if ! sed '/^#archive_logs_start$/,/^#archive_logs_end$/d' "$shutdown_file" > "$tmp_file"; then
+			rm -f "$tmp_file"
+			echo "ERROR: Unable to prepare legacy syslog hook removal."
+			exit 1
+		fi
+
+		if ! cat "$tmp_file" > "$shutdown_file"; then
+			rm -f "$tmp_file"
+			echo "ERROR: Unable to update $shutdown_file."
+			exit 1
+		fi
+
 		rm -f "$tmp_file"
 	fi
 fi
@@ -215,7 +241,7 @@ rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
 #
 # Remove the tips and tweaks 'bundle' so it will be downloaded if re-installed.
 #
-rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
+rm -f "/boot/config/plugins/&plugin;/&name;-&version;.tgz"
 
 echo "Removing packages..."
 

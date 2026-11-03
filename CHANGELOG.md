@@ -4,6 +4,13 @@ The **Next** series continues development of the plugin by the original author a
 
 Development of the plugin will continue with ongoing maintenance, improvements, and enhancements.
 
+## 2026.11.03
+
+### Improvements
+- Improve installation validation, extraction failure handling, and bundle cleanup.
+- Improve legacy configuration migration and temporary file handling.
+- Apply saved settings after live installation or updates when the array is running, avoiding duplicate application during boot.
+
 ## 2026.09.08
 
 ### Fixes
